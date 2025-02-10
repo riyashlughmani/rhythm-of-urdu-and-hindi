@@ -1,0 +1,138 @@
+// Project: "Rhythm of Urdu and Hindi" by Riyash Lughmani
+// Urdu name: "اردو اور ہندی کی تال"
+// Hindi name: "उर्दू और हिंदी की ताल"
+
+// Brief: Uniting the Desi community through a unique mutually intelligible language.
+
+// How?
+// 1. Type in Hindi and Urdu into the designated text boxes.
+// 2. Hindi-Urdu word will appear.
+// 3. Visual of Hindi-Urdu word can be modified with the sliders (hence rhythm)!
+
+// Then?
+// 1. Press the "S" key on your keyboard to save as a GIF!
+// 2. Restart and try again with another Hindi-Urdu word!
+
+// Link to Hindi font: https://fonts.google.com/noto/specimen/Noto+Sans+Devanagari
+// Link to Urdu font: https://fonts.google.com/noto/specimen/Noto+Nastaliq+Urdu?query=urdu
+
+
+// VARIABLE SECTION //
+
+// hindi-urdu type
+let hindiText = 'हिंदी'; // hindi text on screen // 'हिंदी'
+let urduText = 'اردو'; // urdu text on screen // 'اردو'
+let hindiFont; // hindi typography
+let urduFont; // urdu typography
+  
+let input;
+
+// slider variable
+let tX; // tile X
+let tY; // tile Y
+let sp; // speed
+let dspx; // displacement X
+let dspy; // displacement Y
+let fct; // function control
+let fnts; // font size
+
+
+// PRELOAD SECTION //
+function preload() {
+  hindiFont = loadFont('assets/NotoSansDevanagari-Regular.ttf'); // hindi typography
+  urduFont = loadFont('assets/NotoNastaliqUrdu-Regular.ttf'); // urdu typography
+}
+
+
+// SETUP SECTION //
+
+function setup() {
+  createCanvas(windowWidth, windowHeight); // canvas size
+  background(240); // canvas colour // light grey
+  createSliders(); // sliders
+  textAlign(CENTER, CENTER); // what if text will move? needed?
+
+  input = createInput('हिंदी');
+  // input = createInput('hindiText');
+  input.size(150, 50);
+  input.position(500, height + 15);
+
+  input = createInput('اردو');
+  // //input = createInput(urduText);
+  input.size(150, 50);
+  input.position(700, height + 15);
+
+//translate(width/2, height/2);
+
+
+// function draw() {
+textFont(hindiText);
+textFont(urduText);
+textSize(fnts.value());
+
+  // hindi text
+  textSize(100);
+  fill(0);
+  text(hindiText, width / 2, height / 2 - 60);
+  text(urduText, width / 2, height / 2 + 60);
+
+  // urdu text
+  // textSize(100);
+  // fill(0);
+  // text(urduText, width / 2, height / 2 + 60);
+}
+
+
+
+// SLIDERS SECTION (rhythm modification of text)
+
+function createSliders() {
+
+  // tile x
+  tX = createSlider(1, 50, 25, 1);
+  tX.position(20, height + 40); // values moves slider ONLY
+  createP('Tiles X').position(20, height); // values moves slider text ONLY
+
+  // tile y
+  tY = createSlider(1, 50, 25, 1);
+  tY.position(20, height + 100);
+  createP('Tiles Y').position(20, height + 60);
+
+  // speed
+  sp = createSlider(0, 1, 0.1, 0.01);
+  sp.position(20, height + 160);
+  createP('Speed').position(20, height + 120);
+
+  // displacement x
+  dspx = createSlider(0, 1, 0.05, 0.001);
+  dspx.position(180, height + 40);
+  createP('Displacement X').position(180, height);
+
+  // displacement y
+  dspy = createSlider(0, 1, 0.05, 0.001);
+  dspy.position(180, height + 100);
+  createP('Displacement Y').position(180, height + 60);
+
+  // function
+  fct = createSlider(0, 200, 50, 1);
+  fct.position(180, height + 160);
+  createP('Offset').position(180, height + 120);
+
+  // font size
+  fnts = createSlider(20, 500, 50, 1);
+  fnts.position(340, height + 160);
+  createP('Font Size').position(320, height + 120);
+}
+
+
+
+// SAVE SECTION //
+function keyPressed() {
+  if (key == 's') { // "S" button on keyboard will save 
+    saveGif('rhythm of urdu and hindi', 3);  // saved as "rhythm of urdu and hindi"
+  }
+}
+
+
+
+// END //
