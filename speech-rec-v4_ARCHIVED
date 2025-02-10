@@ -1,0 +1,179 @@
+// VARIABLE SECTION //
+
+// preload variable
+let hindiFont; // hindi typography
+let urduFont; // urdu typography
+
+// speech recognition variable
+let mic; // for mic purposes
+let speechRecHindi; // hindi speech-to-text
+let speechRecUrdu; // urdu speech-to-text
+let recognizedText; // holds said text
+let hindiText = recognizedText; // hindi text on screen //  = "नमस्ते"
+let urduText = recognizedText; // urdu text on screen // = "نمستے"
+
+// slider variable
+let tX; // tile X
+let tY; // tile Y
+let sp; // speed
+let dspx; // displacement X
+let dspy; // displacement Y
+let fct; // function control
+let fnts; // font size
+
+
+
+// PRELOAD SECTION //
+
+function preload() {
+  hindiFont = loadFont('assets/NotoSansDevanagari-Regular.ttf'); // hindi typography
+  urduFont = loadFont('assets/NotoNastaliqUrdu-Regular.ttf'); // urdu typography
+}
+
+
+
+// SETUP SECTION //
+function setup() {
+
+  // overview
+  createCanvas(windowWidth, windowHeight); // canvas size
+  createSliders(); // sliders
+
+
+  // permission for audio on browser
+  getAudioContext().suspend();
+  mic = new p5.AudioIn();
+  mic.start();
+  let vol = mic.getLevel();
+  console.log(vol); // console in google chrome
+}
+
+function mousePressed() {
+  mic.start();
+  getAudioContext().resume(); // audio begins
+console.log("pressed");
+}
+
+// updating the speech
+function gotSpeech(gotHindiSpeech, gotUrduSpeech) {
+
+  if (speech.resultValue) {
+    hindiText = speech.resultString;
+    urduText = speech.resultString;
+    console.log();
+  }
+
+
+  if (speech.resultValue) {
+    { // (TC) why is there two of theis???
+      recognizedText = speech.resultString;
+      draw();
+      return recognizedText;
+    }
+  }
+
+  // updating the speech variable
+  hindiText = gotSpeech(speechRecHindi);
+  urduText = gotSpeech(speechRecUrdu);
+  console.log(hindiText, urduText);
+
+  // hindi speech
+  speechRecHindi = new p5.SpeechRec('hi-IN', gotHindiSpeech); // hindi speech identifier
+  speechRecHindi.continuous = true; // listens continously
+  speechRecHindi.interimResults = true; // finalises said text
+  speechRecHindi.start();
+
+  // urdu speech
+  speechRecUrdu = new p5.SpeechRec('ur-PK', gotUrduSpeech); // urdu speech identifier
+  speechRecUrdu.continuous = true; // listens continously
+  speechRecUrdu.interimResults = true; // finalises said text
+  speechRecUrdu.start();
+}
+
+
+function gotHindiSpeech() {
+  if (speech.resultValue) {
+    hindiText = speech.resultString; // holds recognised hindi text
+  }
+}
+
+function gotUrduSpeech() {
+  if (speech.resultValue) {
+    urduText = speech.resultString; // holds recognised urdu text
+  }
+}
+
+
+
+// DRAW SECTION //
+
+function draw() {
+  background(225);
+
+  let vol = mic.getLevel();
+  console.log(vol); // console in google chrome
+  
+  // hindi text
+  fill(0);
+  textAlign(CENTER, CENTER);
+  text(hindiText, width / 2, height / 2 - 40); // hindi text positioning
+
+  // urdu text
+  fill(0);
+  textAlign(CENTER, CENTER);
+  text(urduText, width / 2, height / 2 + 40); // urdu text positioning
+}
+
+
+
+// SLIDERS SECTION (rhythm modification of text)
+function createSliders() {
+
+  // tile x
+  tX = createSlider(1, 50, 25, 1);
+  tX.position(20, height + 40); // values moves slider ONLY
+  createP('Tiles X').position(20, height); // values moves slider text ONLY
+
+  // tile y
+  tY = createSlider(1, 50, 25, 1);
+  tY.position(20, height + 100);
+  createP('Tiles Y').position(20, height + 60);
+
+  // speed FIX THIS!!!
+  sp = createSlider(0, 1, 0.1, 0.01);
+  sp.position(20, height + 160);
+  createP('Speed').position(20, height + 120);
+
+  // displacement x
+  dspx = createSlider(0, 1, 0.05, 0.001);
+  dspx.position(180, height + 40);
+  createP('Displacement X').position(180, height);
+
+  // displacement y
+  dspy = createSlider(0, 1, 0.05, 0.001);
+  dspy.position(180, height + 100);
+  createP('Displacement Y').position(180, height + 60);
+
+  // function
+  fct = createSlider(0, 200, 50, 1);
+  fct.position(180, height + 160);
+  createP('Offset').position(180, height + 120);
+
+  // font size
+  fnts = createSlider(20, 500, 50, 1);
+  fnts.position(340, height + 160);
+  createP('Font Size').position(320, height + 120);
+}
+
+
+
+// SAVE SECTION //
+function keyPressed() {
+  if (key == 's') { // "S" button on keyboard will save 
+    saveGif('rhythm of urdu and hindi', 5);  // saved as "rhythm of urdu and hindi" for 5 seconds
+  }
+}
+
+
+
+// END //
