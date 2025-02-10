@@ -1,0 +1,188 @@
+// Project: "Rhythm of Urdu and Hindi" by Riyash Lughmani
+// Urdu name: "اردو اور ہندی کی تال"
+// Hindi name: "उर्दू और हिंदी की ताल"
+
+// Brief: Uniting the Desi community through a unique mutually intelligible language.
+
+// How?
+// 1. Speak into the mic in Hindi-Urdu (preferably one word only).
+// 2. Hindi-Urdu word will appear.
+// 3. Visual of Hindi-Urdu word can be modified (hence rhythm).
+
+// Link to Hindi font: https://fonts.google.com/noto/specimen/Noto+Sans+Devanagari
+// Link to Urdu font: https://fonts.google.com/noto/specimen/Noto+Nastaliq+Urdu?query=urdu
+
+
+
+// VARIABLE SECTION //
+
+// preload variable
+let hindiText; // hindi text on screen
+let urduText; // urdu text on screen
+
+// speech recognition variable
+let speechRecHindi; // hindi speech-to-text
+let speechRecUrdu; // urdu speech-to-text
+let recognizedText; // holds said text
+let hindiFont; // hindi typography
+let urduFont; // urdu typography
+
+let pg; // graphics DELETE?
+
+// slider variable
+let tX; // tile X
+let tY; // tile Y
+let sp; // speed
+let dspx; // displacement X
+let dspy; // displacement Y
+let fct; // function control
+let fnts; // font size
+
+let mic; // for mic purposes
+
+
+
+// PRELOAD SECTION //
+
+function preload() {
+  hindiFont = loadFont('assets/NotoSansDevanagari-Regular.ttf'); // hindi typography
+  urduFont = loadFont('assets/NotoNastaliqUrdu-Regular.ttf'); // urdu typography
+}
+
+
+
+// SETUP SECTION //
+
+function setup() {
+
+  createCanvas(windowWidth, windowHeight); // canvas size
+  createSliders(); // sliders
+  createGraphics(windowWidth, windowHeight); //  off-screen graphics
+  
+
+// permission for audio
+  getAudioContext().suspend();
+  mic = new p5.AudioIn();
+  mic.start();
+}
+  
+  function draw() {
+    let vol = mic.getLevel();
+    console.log(vol);
+  }
+  
+  function mousePressed() {
+    mic.start();
+    getAudioContext().resume();
+  }
+
+
+  // updating the speech
+function gotSpeech(speech) { {
+  if(speech.resultValue) {
+    recognizedText = speech.resultString;
+    draw();
+    return recognizedText;
+  }
+}
+
+// updating the speech variable
+hindiText = gotSpeech(speechRecHindi);
+urduText = gotSpeech(speechRecUrdu);
+console.log(hindiText, urduText);
+
+
+  // hindi speech
+  speechRecHindi = new p5.SpeechRec('hi-IN', gotHindiSpeech); // hindi speech identifier
+  speechRecHindi.continuous = true; // listens continously
+  speechRecHindi.interimResults = true; // finalises said text
+  speechRecHindi.start();
+
+  // urdu speech
+  speechRecUrdu = new p5.SpeechRec('ur-PK', gotUrduSpeech); // urdu speech identifier
+  speechRecUrdu.continuous = true; // listens continously
+  speechRecUrdu.interimResults = true; // finalises said text
+  speechRecUrdu.start();
+}
+
+
+function gotHindiSpeech() {
+  if(speech.resultValue) {
+    hindiText = speech.resultString; // holds recognised hindi text
+  }
+}
+
+function gotUrduSpeech() {
+  if(speech.resultValue) {
+    urduText = speech.resultString; // holds recognised urdu text
+  }
+}
+
+
+
+// DRAW SECTION //
+
+function draw() {
+// hindi text
+pg.fill(0);
+pg.textAlign(CENTER, CENTER);
+pg.text(hindiText, width / 2, height / 2 - 40); // hindi text positioning
+
+// urdu text
+pg.fill(0);
+pg.textAlign(CENTER, CENTER);
+pg.text(urduText, width / 2, height / 2 + 40); // urdu text positioning
+}
+
+
+
+// SLIDERS SECTION (rhythm modification of text) //
+function createSliders() {
+
+// tile x
+tX = createSlider(1, 50, 25, 1);
+tX.position(20, height + 40); // values moves slider ONLY
+createP('Tiles X').position(20, height); // values moves slider text ONLY
+
+// tile y
+tY = createSlider(1, 50, 25, 1);
+tY.position(20, height + 100);
+createP('Tiles Y').position(20, height + 60);
+
+// speed FIX THIS!!!
+//sp = createSlider(0, 1, 0.1, 0.01);
+//sp.positon(20, height + 160);
+//createP('Speed').position(20, height + 120);
+
+// displacement x
+dspx = createSlider(0, 1, 0.05, 0.001);
+dspx.position(180, height + 40);
+createP('Displacement X').position(180, height);
+
+// displacement y
+dspy = createSlider(0, 1, 0.05, 0.001);
+dspy.position(180, height + 100);
+createP('Displacement Y').position(180, height + 60);
+
+// function
+fct = createSlider(0, 200, 50, 1);
+fct.position(180, height + 160);
+createP('Offset').position(180, height + 120);
+
+// font size
+fnts = createSlider(20, 500, 50, 1);
+fnts.position(340, height + 160);
+createP('Font Size').position(320, height + 120);
+
+}
+
+
+
+// SAVE SECTION //
+function saveC() {
+  saveCanvas();
+}
+
+
+
+// END //
