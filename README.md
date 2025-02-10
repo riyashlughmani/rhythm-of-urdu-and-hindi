@@ -3,7 +3,7 @@
 Urdu: اردو اور ہندی کی تال
 Hindi: उर्दू और हिन्दी की ताल
 
-Uniting the Desi community through a unique mutually intelligible language.
+Brief: Uniting the Desi community through a unique mutually intelligible language.
 
 FYI: The archived files are my old speech recognition process code.
 
