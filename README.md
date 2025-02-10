@@ -7,4 +7,4 @@ Brief: Uniting the Desi community through a unique mutually intelligible languag
 
 FYI: The archived files are my old speech recognition process code.
 
-// note: the codes titled "rhythm" are originally from my backup plan in case my speech recognition could not work //
+note: the codes titled "rhythm" are originally from my backup plan in case my speech recognition could not work
