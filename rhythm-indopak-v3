@@ -1,0 +1,98 @@
+let hindiFont; // hindi typography
+let urduFont; // urdu typography
+let hindiText; // hindi text on screen // 'हिंदी'
+let urduText; // urdu text on screen // 'اردو'
+
+
+function preload() {
+  hindiFont = loadFont('assets/NotoSansDevanagari-Regular.ttf'); // hindi typography
+  urduFont = loadFont('assets/NotoNastaliqUrdu-Regular.ttf'); // urdu typography
+}
+
+
+function setup() {
+  // createCanvas(windowWidth, windowHeight);
+  createCanvas(400, 400);
+  createSliders();
+  textAlign(CENTER, CENTER);
+
+  hindiText = createInput('');
+  hindiText.attribute('placeholder', 'hindi text');
+  hindiText.position(75, height + 25);
+  hindiText.size(75);
+  
+  urduText = createInput('');
+  urduText.attribute('placeholder', 'urdu text');
+  urduText.position(225, height + 25);
+  urduText.size(75);
+}
+
+
+function draw() {
+  background(220);
+  
+  let hindiMsg = hindiText.value();
+  let urduMsg = urduText.value();
+  
+  text(hindiMsg, 200, 150);
+  textFont(hindiFont, 50);
+  text(urduMsg, 200, 250);
+  textFont(urduFont, 50);
+  // push();
+  translate(width/2, height/2);
+  textSize(100);
+  // pop();
+  }
+
+
+function createSliders() {
+  let tX; // tile X
+  let tY; // tile Y
+  let sp; // speed
+  let dspx; // displacement X
+  let dspy; // displacement Y
+  let fct; // function control
+  // let fnts; // font size
+
+  // tile x
+  tX = createSlider(1, 50, 25, 1);
+  tX.position(50, height + 100); // values moves slider ONLY
+  createP('tiles x:').position(50, height + 60); // values moves slider text ONLY
+
+  // tile y
+  tY = createSlider(1, 50, 25, 1);
+  tY.position(50, height + 170);
+  createP('tiles y:').position(50, height + 130);
+
+  // speed DONE
+  sp = createSlider(0, 1, 0.1, 0.01);
+  sp.position(50, height + 240);
+  createP('speed:').position(50, height + 200);
+
+  // displacement x
+  dspx = createSlider(0, 1, 0.05, 0.001);
+  dspx.position(200, height + 100);
+  createP('displacement x:').position(200, height + 60);
+
+  // displacement y
+  dspy = createSlider(0, 1, 0.05, 0.001);
+  dspy.position(200, height + 170);
+  createP('displacement y:').position(200, height + 130);
+
+  // function DONE
+  fct = createSlider(0, 200, 50, 1);
+  fct.position(200, height + 240);
+  createP('offset:').position(200, height + 200);
+
+  // // font size
+  // fnts = createSlider(20, 500, 50, 1);
+  // fnts.position(340, height + 160);
+  // createP('Font Size').position(320, height + 120);
+}
+
+
+function keyPressed() {
+  if (key == 's') { // "S" button on keyboard will save 
+    saveGif('rhythm of urdu and hindi', 3);  // saved as "rhythm of urdu and hindi"
+  }
+}
