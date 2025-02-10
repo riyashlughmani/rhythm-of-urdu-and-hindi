@@ -1,0 +1,59 @@
+// "Rhythm of Urdu and Hindi" by Riyash Lughmani
+// Uniting the Desi community through a unique mutually intelligible language.
+
+
+// variable section
+let speechRec; // variable for speech-to-text
+let hindiFont; // variable for hindi text
+let urduFont; // variable for urdu text
+let pg;
+
+
+// preload section
+function preload() {
+  hindiFont = loadFont('assets/NotoSansHindi-Regular.ttf'); // hindi font
+  urduFont = loadFont('assets/NotoNastaliqUrdu-Regular.ttf'); // urdu font
+}
+
+
+// setup section
+function setup() {
+  createCanvas(600, 400); // oblong canvas
+  background(255); // white background
+  let speechRec = new p5.SpeechRec('hi-IN', gotSpeech); // hindi speech
+  let speechRec = new p5.SpeechRec('ur-PK', gotSpeech); // urdu speech
+  speechRec.start();
+}
+
+
+// hindi-urdu text section
+function draw() {
+
+  // hindi text only
+  textFont(hindiFont);
+  textSize(50);
+  textAlign(CENTER, CENTER);
+  fill(0);
+
+  // urdu text only
+  textFont(urduFont);
+  textSize(50)
+  textAlign(CENTER, CENTER);
+  fill(0);
+}
+
+
+// speech-to-text section
+function gotSpeech() {
+  console.log(speechRec);
+if(speechRec.resultValue) {
+createP(speechRec.resultString); 
+}
+
+}
+
+
+// create sliders section (rhythm modification of text)
+function createSliders() {
+
+}
